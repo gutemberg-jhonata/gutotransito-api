@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/proprietarios")
-public class ProprietatioController {
+public class ProprietarioController {
     
     /*@PersistenceContext
     private EntityManager manager;*/
