@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gutinhotech.gutotransito.domain.model.Proprietario;
 import com.gutinhotech.gutotransito.domain.repository.ProprietarioRepository;
+import com.gutinhotech.gutotransito.domain.service.RegistroProprietarioService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class ProprietarioController {
     /*@PersistenceContext
     private EntityManager manager;*/
     private final ProprietarioRepository proprietarioRepository;
+    private final RegistroProprietarioService registroProprietarioService;
 
     @GetMapping
     public List<Proprietario> listar() {
@@ -55,7 +57,7 @@ public class ProprietarioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Proprietario adicionar(@Valid @RequestBody Proprietario proprietario) {
-        return proprietarioRepository.save(proprietario);
+        return registroProprietarioService.salvar(proprietario);
     }
 
     @PutMapping("/{proprietarioId}")
@@ -66,7 +68,7 @@ public class ProprietarioController {
                 return ResponseEntity.notFound().build();
             }
             proprietario.setId(proprietarioId);
-            var proprietarioAtualizado = proprietarioRepository.save(proprietario);
+            var proprietarioAtualizado = registroProprietarioService.salvar(proprietario);
             return ResponseEntity.ok(proprietarioAtualizado);
     }
 
@@ -75,7 +77,7 @@ public class ProprietarioController {
         if (!proprietarioRepository.existsById(proprietarioId)) {
             return ResponseEntity.notFound().build();
         }
-        proprietarioRepository.deleteById(proprietarioId);
+        registroProprietarioService.excluir(proprietarioId);
         return ResponseEntity.noContent().build();
     }
 
