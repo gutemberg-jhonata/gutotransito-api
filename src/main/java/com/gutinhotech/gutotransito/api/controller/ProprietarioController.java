@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gutinhotech.gutotransito.domain.exception.NegocioException;
 import com.gutinhotech.gutotransito.domain.model.Proprietario;
 import com.gutinhotech.gutotransito.domain.repository.ProprietarioRepository;
 import com.gutinhotech.gutotransito.domain.service.RegistroProprietarioService;
@@ -81,12 +79,6 @@ public class ProprietarioController {
         }
         registroProprietarioService.excluir(proprietarioId);
         return ResponseEntity.noContent().build();
-    }
-
-    @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<String> capturar(NegocioException e) {
-        return ResponseEntity.badRequest()
-            .body(e.getMessage());
     }
 
 }
