@@ -44,15 +44,10 @@ public class Veiculo {
     @Size(max = 7)
     private String placa;
 
-    @NotBlank
-    @Size(max = 20)
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull
     private LocalDateTime dataCadastro;
-
-    @NotNull
     private LocalDateTime dataApreensao;
 
     public enum Status {
