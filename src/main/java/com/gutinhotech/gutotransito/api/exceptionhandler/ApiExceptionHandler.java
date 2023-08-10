@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +45,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<String> capturar(NegocioException e) {
-        return ResponseEntity.badRequest()
-            .body(e.getMessage());
+    public ProblemDetail capturar(NegocioException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("https://algatransito.com/errors/regra-de-negocio"));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail handleDataIntegrity(DataIntegrityViolationException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setTitle("Recurso está em uso");
+        problemDetail.setType(URI.create("https://algatransito.com/errors/regra-de-negocio"));
+        return problemDetail;
     }
 
 }
