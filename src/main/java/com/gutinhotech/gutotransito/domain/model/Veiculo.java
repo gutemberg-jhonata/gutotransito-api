@@ -57,16 +57,12 @@ public class Veiculo {
 
     @JsonProperty(access = Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusVeiculo status;
 
     @JsonProperty(access = Access.READ_ONLY)
     private OffsetDateTime dataCadastro;
 
     @JsonProperty(access = Access.READ_ONLY)
     private OffsetDateTime dataApreensao;
-
-    public enum Status {
-        REGULAR, APREENDIDO
-    }
 
 }
