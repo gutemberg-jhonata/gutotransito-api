@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gutinhotech.gutotransito.api.assembler.VeiculoAssembler;
 import com.gutinhotech.gutotransito.api.model.VeiculoModel;
+import com.gutinhotech.gutotransito.api.model.input.VeiculoInput;
 import com.gutinhotech.gutotransito.domain.model.Veiculo;
 import com.gutinhotech.gutotransito.domain.repository.VeiculoRepository;
 import com.gutinhotech.gutotransito.domain.service.RegistroVeiculoService;
@@ -45,8 +46,10 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VeiculoModel cadastrar(@Valid @RequestBody Veiculo veiculo) {
-        return veiculoAssembler.toModel(registroVeiculoService.cadastrar(veiculo));
+    public VeiculoModel cadastrar(@Valid @RequestBody VeiculoInput veiculoInput) {
+        Veiculo novoVeiculo = veiculoAssembler.toEntity(veiculoInput);
+        Veiculo veiculoCadastrado = registroVeiculoService.cadastrar(novoVeiculo);
+        return veiculoAssembler.toModel(veiculoCadastrado);
     }
 
 }
