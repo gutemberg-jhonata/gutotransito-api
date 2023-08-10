@@ -1,6 +1,6 @@
 package com.gutinhotech.gutotransito.domain.service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class RegistroVeiculoService {
         Proprietario proprietario = registroProprietarioService.buscar(novoVeiculo.getProprietario().getId());
         novoVeiculo.setProprietario(proprietario);
         novoVeiculo.setStatus(Veiculo.Status.REGULAR);
-        novoVeiculo.setDataCadastro(LocalDateTime.now());
+        novoVeiculo.setDataCadastro(OffsetDateTime.now());
         return veiculoRepository.save(novoVeiculo);
     }
 
