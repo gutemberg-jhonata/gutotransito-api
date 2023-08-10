@@ -2,6 +2,7 @@ package com.gutinhotech.gutotransito.api.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class VeiculoController {
 
     private final VeiculoRepository veiculoRepository;
     private final RegistroVeiculoService registroVeiculoService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public List<Veiculo> listar() {
@@ -36,7 +38,7 @@ public class VeiculoController {
     @GetMapping("/{veiculoId}")
     public ResponseEntity<VeiculoModel> buscar(@PathVariable Long veiculoId) {
         return veiculoRepository.findById(veiculoId)
-            .map(VeiculoModel::new)
+            .map(veiculo -> modelMapper.map(veiculo, VeiculoModel.class))
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
