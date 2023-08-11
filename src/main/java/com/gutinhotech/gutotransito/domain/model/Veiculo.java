@@ -1,6 +1,8 @@
 package com.gutinhotech.gutotransito.domain.model;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,5 +42,8 @@ public class Veiculo {
 
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
+
+    @OneToMany(mappedBy = "veiculo")
+    List<Autuacao> autuacoes = new ArrayList<>();
 
 }
