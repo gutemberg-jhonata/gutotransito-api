@@ -2,6 +2,7 @@ package com.gutinhotech.gutotransito.domain.model;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +45,19 @@ public class Veiculo {
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
 
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "veiculo")
     List<Autuacao> autuacoes = new ArrayList<>();
+
+    public List<Autuacao> getAutuacoes() {
+        return Collections.unmodifiableList(autuacoes);
+    }
+
+    public Autuacao adicionarAutuacao(final Autuacao autuacao) {
+        autuacao.setDataOcorrencia(OffsetDateTime.now());
+        autuacao.setVeiculo(this);
+        autuacoes.add(autuacao);
+        return autuacao;
+    }
 
 }
