@@ -2,7 +2,7 @@ package com.gutinhotech.gutotransito.api.model;
 
 import java.time.OffsetDateTime;
 
-import com.gutinhotech.gutotransito.domain.model.StatusVeiculo;
+import com.gutinhotech.gutotransito.domain.model.Veiculo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class VeiculoModel {
     private String marca;
     private String modelo;
     private String numeroPlaca;
-    private StatusVeiculo status;
+    private Veiculo.Status status;
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
 

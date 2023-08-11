@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.gutinhotech.gutotransito.domain.exception.NegocioException;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,7 +43,7 @@ public class Veiculo {
 
     //@JsonProperty(access = Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private StatusVeiculo status;
+    private Status status;
 
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataApreensao;
@@ -59,6 +61,55 @@ public class Veiculo {
         autuacao.setVeiculo(this);
         autuacoes.add(autuacao);
         return autuacao;
+    }
+
+    public void apreender() {
+        if (getStatus().podeApreender()) {
+            setStatus(Status.APREENDIDO);
+            setDataApreensao(OffsetDateTime.now());
+        }
+
+        throw new NegocioException("Veículo não pode ser apreendido");
+    }
+
+    public void removerApreensao() {
+        if (getStatus().podeRemoverApreensao()) {
+            setStatus(Status.REGULAR);
+            setDataApreensao(null);
+        }
+
+        throw new NegocioException("Veículo não está apreendido");
+    }
+
+    public enum Status {
+        REGULAR {
+            
+            @Override
+            public boolean podeApreender() {
+                return true;
+            }
+    
+            @Override
+            public boolean podeRemoverApreensao() {
+                return false;
+            }
+    
+        }, 
+        APREENDIDO {
+            @Override
+            public boolean podeApreender() {
+                return false;
+            }
+    
+            @Override
+            public boolean podeRemoverApreensao() {
+                return true;
+            }
+    
+        };
+    
+        public abstract boolean podeApreender();
+        public abstract boolean podeRemoverApreensao();
     }
 
 }

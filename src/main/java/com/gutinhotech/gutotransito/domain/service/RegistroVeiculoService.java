@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.gutinhotech.gutotransito.domain.exception.NegocioException;
 import com.gutinhotech.gutotransito.domain.exception.EntidadeNaoEncontradaException;
 import com.gutinhotech.gutotransito.domain.model.Proprietario;
-import com.gutinhotech.gutotransito.domain.model.StatusVeiculo;
 import com.gutinhotech.gutotransito.domain.model.Veiculo;
 import com.gutinhotech.gutotransito.domain.repository.VeiculoRepository;
 
@@ -39,7 +38,7 @@ public class RegistroVeiculoService {
         }
         Proprietario proprietario = registroProprietarioService.buscar(novoVeiculo.getProprietario().getId());
         novoVeiculo.setProprietario(proprietario);
-        novoVeiculo.setStatus(StatusVeiculo.REGULAR);
+        novoVeiculo.setStatus(Veiculo.Status.REGULAR);
         novoVeiculo.setDataCadastro(OffsetDateTime.now());
         return veiculoRepository.save(novoVeiculo);
     }
