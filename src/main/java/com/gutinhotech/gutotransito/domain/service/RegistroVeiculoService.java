@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import org.springframework.stereotype.Service;
 
 import com.gutinhotech.gutotransito.domain.exception.NegocioException;
+import com.gutinhotech.gutotransito.domain.exception.EntidadeNaoEncontradaException;
 import com.gutinhotech.gutotransito.domain.model.Proprietario;
 import com.gutinhotech.gutotransito.domain.model.StatusVeiculo;
 import com.gutinhotech.gutotransito.domain.model.Veiculo;
@@ -22,7 +23,7 @@ public class RegistroVeiculoService {
 
     public Veiculo buscar(final Long veiculoId) {
         return veiculoRepository.findById(veiculoId)
-            .orElseThrow(() -> new NegocioException("Veículo não encontrado."));
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Veículo não encontrado."));
     }
 
     @Transactional
