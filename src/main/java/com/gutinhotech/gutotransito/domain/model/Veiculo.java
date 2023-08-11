@@ -67,18 +67,18 @@ public class Veiculo {
         if (getStatus().podeApreender()) {
             setStatus(Status.APREENDIDO);
             setDataApreensao(OffsetDateTime.now());
+        } else {
+            throw new NegocioException("Veículo não pode ser apreendido");
         }
-
-        throw new NegocioException("Veículo não pode ser apreendido");
     }
 
     public void removerApreensao() {
         if (getStatus().podeRemoverApreensao()) {
             setStatus(Status.REGULAR);
             setDataApreensao(null);
+        } else {
+            throw new NegocioException("Veículo não está apreendido");
         }
-
-        throw new NegocioException("Veículo não está apreendido");
     }
 
     public enum Status {
